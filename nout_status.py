@@ -1,10 +1,8 @@
-import requests
-# import datetime
 import time
 import logging
-# import argparse
 import psutil
 import common
+import platform
 
 logging.basicConfig(level=logging.INFO, format='[%(asctime)s][%(levelname)s] %(message)s', datefmt='%d-%b-%y %H:%M:%S')
 console = logging.StreamHandler()
@@ -52,12 +50,13 @@ def get_root_usage(send_data):
     return send_data
 
 while True:
-    send_data = ''
+    _name = f"===> {platform.node()}  <===\n"
+    send_data = _name
     send_data = get_root_usage(send_data)
     send_data = get_cpu(send_data)
     send_data = get_mem(send_data)
     send_data = get_battery(send_data)
-    if send_data:
+    if send_data != _name:
         common.send_statistics(send_data)
         logging.info(send_data)
     else:
