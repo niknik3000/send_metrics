@@ -36,7 +36,7 @@ def get_cpu(send_data):
 
 def get_battery(send_data):
     battery = psutil.sensors_battery()
-    if battery and not battery.power_plugged and round(battery.percent):
+    if battery and not battery.power_plugged and int(round(battery.percent)) <= 20:
         send_data += "WARNING, BATTERY DISCHARGING\n"
         send_data += f"Батарея заряжается: {battery.power_plugged}\nПроцент заряда: {round(battery.percent)}\nЗаряда осталось на {round(battery.secsleft / 60)} минут"
         send_data += "\n####################\n"
