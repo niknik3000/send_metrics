@@ -44,8 +44,8 @@ def get_battery(send_data):
 
 def get_root_usage(send_data):
     root_usage = psutil.disk_usage("/")
-    if root_usage.percent < float(10):
-        send_data += f"WARNING, LOW FREE SPACE in '/'\nОсталось места {root_usage.percent}% ({round(root_usage.free / 1024 / 1042 / 1024)} Гб)"
+    if (100 - root_usage.percent) < float(15):
+        send_data += f"WARNING, LOW FREE SPACE in '/'\nОсталось места {round(root_usage.free / 1024 / 1042 / 1024, 2)} Гб"
         send_data += "\n####################\n"
     return send_data
 
