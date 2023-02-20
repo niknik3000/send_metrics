@@ -6,7 +6,7 @@ import requests
 
 logging.basicConfig(
     level=logging.INFO,
-    format='[%(asctime)s][%(levelname)s] %(message)37s',
+    format='[%(asctime)s][%(levelname)s] %(message)45s',
     datefmt='%d-%b-%y %H:%M:%S',
     handlers=[
         logging.FileHandler("check_connect.log"),
@@ -28,7 +28,7 @@ hosts = [
 
 def check_connect(host):
     try:
-        get_data = requests.get(host, timeout=3)
+        get_data = requests.get(host, timeout=5)
         if get_data.status_code != 200:
             logging.error(
                 f"Не достучались до узла {host}, код {get_data.status_code}\nЗаголовки ответа: {get_data.headers}")
