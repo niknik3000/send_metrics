@@ -28,7 +28,7 @@ hosts = [
 
 def check_connect(host):
     try:
-        get_data = requests.get(host, timeout=5)
+        get_data = requests.get(host, timeout=10)
         if get_data.status_code != 200:
             logging.error(
                 f"Не достучались до узла {host}, код {get_data.status_code}\nЗаголовки ответа: {get_data.headers}")
