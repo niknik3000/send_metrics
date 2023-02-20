@@ -35,7 +35,6 @@ def check_connect(host):
     except Exception as ex:
         logging.critical(f"При попытке доступа к {host} критическая ошибка: {ex}")
     else:
-        str_len = 50
         logging.info(f"{host} -> {get_data.reason}")
 
 
