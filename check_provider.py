@@ -14,7 +14,7 @@ logging.basicConfig(
     ]
 )
 
-hub = [
+hosts = [
     "https://download.docker.com",
     "https://dl.google.com",
     "http://ru.archive.ubuntu.com",
@@ -40,5 +40,5 @@ def check_connect(host):
 
 if __name__ == "__main__":
     while True:
-        check_connect(hub[random.randrange(0, len(hub))])
+        check_connect(hosts[random.randrange(0, len(hosts))])
         time.sleep(2)
