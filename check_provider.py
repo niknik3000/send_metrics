@@ -6,7 +6,7 @@ import requests
 
 logging.basicConfig(
     level=logging.INFO,
-    format='[%(asctime)s][%(levelname)s] %(message)s',
+    format='[%(asctime)s][%(levelname)s] %(message)37s',
     datefmt='%d-%b-%y %H:%M:%S',
     handlers=[
         logging.FileHandler("check_connect.log"),
@@ -35,6 +35,7 @@ def check_connect(host):
     except Exception as ex:
         logging.critical(f"При попытке доступа к {host} критическая ошибка: {ex}")
     else:
+        str_len = 50
         logging.info(f"{host} -> {get_data.reason}")
 
 
