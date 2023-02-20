@@ -14,7 +14,11 @@ hub = [
     "https://ya.ru",
     "http://ru.archive.ubuntu.com",
     "https://repo.mongodb.org",
-    "https://packages.microsoft.com"
+    "https://packages.microsoft.com",
+    "https://losst.pro",
+    "https://www.youtube.com",
+    "https://dzen.ru",
+    "https://ubuntu.com"
 ]
 
 
