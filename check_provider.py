@@ -5,7 +5,7 @@ import time
 import requests
 
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.WARNING,
     format='[%(asctime)s][%(levelname)s] %(message)45s',
     datefmt='%d-%b-%y %H:%M:%S',
     handlers=[
@@ -28,12 +28,22 @@ hosts = [
 
 def check_connect(host):
     try:
-        get_data = requests.get(host, timeout=10)
+        get_data = requests.get(host)
         if get_data.status_code != 200:
             logging.error(
                 f"Не достучались до узла {host}, код {get_data.status_code}\nЗаголовки ответа: {get_data.headers}")
-    except Exception as ex:
-        logging.critical(f"При попытке доступа к {host} критическая ошибка: {ex}")
+    except requests.ReadTimeout:
+        logging.warning(f"Превышен таймаут ожидания чтения с {host}")
+        pass
+    except requests.ConnectTimeout:
+        logging.warning(f"Превышен таймаут ожидания подключения к {host}")
+        pass
+    except requests.ConnectionError as ex:
+        logging.error(f"[ConnectionError] Ошибка при попытке доступа к {host}: {ex}")
+    except requests.HTTPError as http_err:
+        logging.error(f"[HTTPError] Ошибка при попытке доступа к {host}: {http_err}")
+    except Exception as e:
+        logging.critical(f"Необрабатаное исключение!!! {e}")
     else:
         logging.info(f"{host} -> {get_data.reason}")
 
