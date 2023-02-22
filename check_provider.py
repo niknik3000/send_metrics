@@ -4,15 +4,24 @@ import time
 
 import requests
 
-logging.basicConfig(
-    level=logging.WARNING,
-    format='[%(asctime)s][%(levelname)s] %(message)45s',
-    datefmt='%d-%b-%y %H:%M:%S',
-    handlers=[
-        logging.FileHandler("check_connect.log"),
-        logging.StreamHandler()
-    ]
-)
+def set_logging():
+    """Задаем логгирование"""
+    logger_main = logging.getLogger()
+    logger_main.setLevel(logging.DEBUG)
+    formatter = logging.Formatter('[%(asctime)s][%(levelname)s] %(message)s')
+    # В файл пишем только ошибки
+    file_handler = logging.FileHandler(filename='check_connect.log',
+                                       mode='w',
+                                       encoding='utf-8')
+    file_handler.setLevel(logging.WARNING)
+    file_handler.setFormatter(formatter)
+    # В консоль пишем DEBUG
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.INFO)
+    console_handler.setFormatter(formatter)
+    logger_main.addHandler(console_handler)
+    logger_main.addHandler(file_handler)
+
 
 hosts = [
     "https://download.docker.com",
@@ -45,10 +54,11 @@ def check_connect(host):
     except Exception as e:
         logging.critical(f"Необрабатаное исключение!!! {e}")
     else:
-        logging.info(f"{host} -> {get_data.reason}")
+        logging.info(f"[{get_data.reason}] -> {host}")
 
 
 if __name__ == "__main__":
+    set_logging()
     while True:
         check_connect(hosts[random.randrange(0, len(hosts))])
         time.sleep(2)
