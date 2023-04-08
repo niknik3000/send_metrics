@@ -42,18 +42,19 @@ def get_battery(send_data):
         send_data += "\n####################\n"
     return send_data
 
-def get_root_usage(send_data):
-    root_usage = psutil.disk_usage("/")
-    perc_used = 100 - root_usage.percent
+def get_partition_usage(send_data, entrypoint):
+    home_usage = psutil.disk_usage(entrypoint)
+    perc_used = round(100 - home_usage.percent, 2)
     if (perc_used) < float(10):
-        send_data += f"WARNING, LOW FREE SPACE in '/'\nОсталось места {perc_used}% ({round(root_usage.free / 1024 / 1042 / 1024, 2)} Гб)"
+        send_data += f"WARNING, LOW FREE SPACE in '{entrypoint}'\nОсталось места {perc_used}% ({round(home_usage.free / 1024 / 1042 / 1024, 2)} Гб)"
         send_data += "\n####################\n"
     return send_data
 
 while True:
     _name = f"===> {platform.node()}  <===\n"
     send_data = _name
-    send_data = get_root_usage(send_data)
+    send_data = get_partition_usage(send_data, "/")
+    send_data = get_partition_usage(send_data, "/home/")
     send_data = get_cpu(send_data)
     send_data = get_mem(send_data)
     send_data = get_battery(send_data)
