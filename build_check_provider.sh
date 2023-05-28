@@ -10,7 +10,8 @@ docker run \
 --detach \
 --name ${container_name} \
 --env-file ./check_connect/env.env \
---restart=always \
+--restart=on-failure \
+--log-opt max-size=50m \
 -v /home/tele_tok/:/usr/src/app/token/ \
 -v $(pwd)/check_connect/:/usr/src/app/ \
 --entrypoint python3 ${image_name} ./check_provider.py
